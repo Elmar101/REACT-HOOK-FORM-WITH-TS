@@ -44,6 +44,9 @@ export const RHFYouTubeForm = () => {
                 /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
               message: "Invalid email format",
             },
+            validate: (fieldValue) => {
+              return fieldValue === 'elmar.amanov10@gmail.com' || "Enter corrected email adress"
+            }
           })}
         />
         <p className="error">{errors.email?.message}</p>
