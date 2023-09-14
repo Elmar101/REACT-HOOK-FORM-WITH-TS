@@ -13,6 +13,7 @@ type FormValues = {
     twitter: string;
     facebook: string;
   };
+  phoneNumbers: string[];
 };
 
 export const RHFYouTubeForm = () => {
@@ -37,11 +38,13 @@ export const RHFYouTubeForm = () => {
       social: {
         twitter: '',
         facebook: '',
-      }
+      },
+      phoneNumbers: ['', '']
     },
   });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
+  console.log("Errors", errors);
   
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);
@@ -116,15 +119,60 @@ export const RHFYouTubeForm = () => {
         <input
           type="text"
           id="twitter"
-          {...register("social.twitter")}
+          {...register("social.twitter",{
+            required: {
+              value: true,
+              message: 'Enter Twittter Proffile Link'
+            }
+          })}
         />
+
+        <p className="error">{errors.social?.twitter?.message}</p>
 
         <label htmlFor="channel">Facebook</label>
         <input
           type="text"
           id="facebook"
-          {...register("social.facebook")}
+          {...register("social.facebook", {
+            validate: (fieldValue)=> fieldValue !=='' || "Enter Facebook Proffile Link"
+          })}
         />
+
+        <p className="error">{errors.social?.facebook?.message}</p>
+
+        <label htmlFor="channel">Primary Phone number</label>
+        <input
+          type="text"
+          id="primary-phone"
+          {...register("phoneNumbers.0",{
+            validate:{
+              minLength: (fieldValue)=> fieldValue.length > 9 || "At Least 10 characters",
+              maxLength : (fieldValue) =>  fieldValue.length < 11 || "Max Length 10"
+            }
+          })}
+        />
+
+        <p className="error">{errors.phoneNumbers?.[0]?.message}</p>
+
+
+        <label htmlFor="channel">Secondary Phone number</label>
+        <input
+          type="text"
+          id="secondary-phone"
+          {...register("phoneNumbers.1", {
+            minLength: {
+              value: 10,
+              message: 'At Least 10 characters'
+            },
+            maxLength: {
+              value: 10,
+              message: "Max Length 10"
+            }
+          })}
+        />
+
+        <p className="error">{errors.phoneNumbers?.[1]?.message}</p>
+
 
         <button>Submit</button>
       </form>
