@@ -9,23 +9,40 @@ type FormValues = {
   email: string;
   emailTwo: string;
   channel: string;
+  social: {
+    twitter: string;
+    facebook: string;
+  };
 };
 
 export const RHFYouTubeForm = () => {
+  // const form = useForm<FormValues>({
+  //    defaultValues: async() => {
+  //     const data = (await axios.get("https://jsonplaceholder.typicode.com/users/1")).data; 
+  //      return {
+  //       email: data.email,
+  //       username: data.name,
+  //       channel: '',
+  //       emailTwo: ''
+  //      }
+  //    },
+  // });
+
   const form = useForm<FormValues>({
-     defaultValues: async() => {
-      const data = (await axios.get("https://jsonplaceholder.typicode.com/users/1")).data; 
-       return {
-        email: data.email,
-        username: data.name,
-        channel: '',
-        emailTwo: ''
-       }
-     },
+    defaultValues:{
+      username: '',
+      email: '',
+      emailTwo: '',
+      channel: '',
+      social: {
+        twitter: '',
+        facebook: '',
+      }
+    },
   });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
-
+  
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted", data);
   };
@@ -41,7 +58,10 @@ export const RHFYouTubeForm = () => {
           type="text"
           id="username"
           {...register("username", {
-            required: { value: true, message: "Username is required" },
+            required: { 
+              value: true, 
+              message: "Username is required" 
+            },
           })}
         />
         <p className="error">{errors.username?.message}</p>
@@ -57,8 +77,9 @@ export const RHFYouTubeForm = () => {
               message: "Invalid email format",
             },
             validate: (fieldValue) => {
+              console.log({fieldValue});
               return fieldValue === 'Sincere@april.biz' || "Enter corrected email adress"
-            }
+            },
           })}
         />
         <p className="error">{errors.email?.message}</p>
@@ -90,6 +111,20 @@ export const RHFYouTubeForm = () => {
           })}
         />
         <p className="error">{errors.channel?.message}</p>
+
+        <label htmlFor="channel">Twitter</label>
+        <input
+          type="text"
+          id="twitter"
+          {...register("social.twitter")}
+        />
+
+        <label htmlFor="channel">Facebook</label>
+        <input
+          type="text"
+          id="facebook"
+          {...register("social.facebook")}
+        />
 
         <button>Submit</button>
       </form>
