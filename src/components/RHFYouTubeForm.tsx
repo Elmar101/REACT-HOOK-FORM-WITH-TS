@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import axios from "axios";
 
 let count = 0;
 
@@ -11,7 +12,17 @@ type FormValues = {
 };
 
 export const RHFYouTubeForm = () => {
-  const form = useForm<FormValues>();
+  const form = useForm<FormValues>({
+     defaultValues: async() => {
+      const data = (await axios.get("https://jsonplaceholder.typicode.com/users/1")).data; 
+       return {
+        email: data.email,
+        username: data.name,
+        channel: '',
+        emailTwo: ''
+       }
+     },
+  });
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
 
@@ -46,7 +57,7 @@ export const RHFYouTubeForm = () => {
               message: "Invalid email format",
             },
             validate: (fieldValue) => {
-              return fieldValue === 'elmar.amanov10@gmail.com' || "Enter corrected email adress"
+              return fieldValue === 'Sincere@april.biz' || "Enter corrected email adress"
             }
           })}
         />
