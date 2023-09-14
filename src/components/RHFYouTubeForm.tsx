@@ -6,6 +6,7 @@ let count = 0;
 type FormValues = {
   username: string;
   email: string;
+  emailTwo: string;
   channel: string;
 };
 
@@ -50,6 +51,24 @@ export const RHFYouTubeForm = () => {
           })}
         />
         <p className="error">{errors.email?.message}</p>
+
+        <label htmlFor="emailTwo">E-mail Two</label>
+        <input
+          type="email"
+          id="email"
+          {...register("emailTwo", {
+            pattern: {
+              value:
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+              message: "Invalid email Two format",
+            },
+            validate: {
+              // noAdmin: (fieldValue) => fieldValue === 'elmar.amanov10@gmail.com' || "Enter corrected admin email adress",
+              badDomain: (fieldValue) => fieldValue.endsWith("gmail.com") || "Bad Domain dont supported",
+            }
+          })}
+        />
+        <p className="error">{errors.emailTwo?.message}</p>
 
         <label htmlFor="channel">Channel</label>
         <input
