@@ -9,6 +9,8 @@ type FormValues = {
   email: string;
   emailTwo: string;
   channel: string;
+  age: number;
+  date: Date;
   social: {
     twitter: string;
     facebook: string;
@@ -36,6 +38,8 @@ export const RHFYouTubeForm = () => {
       email: '',
       emailTwo: '',
       channel: '',
+      age: 0,
+      date: new Date(),
       social: {
         twitter: '',
         facebook: '',
@@ -116,6 +120,28 @@ export const RHFYouTubeForm = () => {
           })}
         />
         <p className="error">{errors.channel?.message}</p>
+
+       <label htmlFor="age">Age</label>
+        <input
+          type="number"
+          id="age"
+          {...register("age", {
+            valueAsNumber: true,
+            required: { value: true, message: "Age is required" },
+          })}
+        />
+        <p className="error">{errors.age?.message}</p>
+
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          id="date"
+          {...register("date", {
+            valueAsDate: true,
+            required: { value: true, message: "Date is required" },
+          })}
+        />
+        <p className="error">{errors.date?.message}</p>
 
         <label htmlFor="channel">Twitter</label>
         <input
