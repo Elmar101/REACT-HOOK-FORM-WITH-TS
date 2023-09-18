@@ -43,13 +43,13 @@ export const RHFYouTubeForm = () => {
       date: new Date(),
       social: {
         twitter: '',
-        facebook: '',
+        facebook: 'fb.com',
       },
       phoneNumbers: ['', ''],
       phNumbers: [{number: '' }]
     },
   });
-  const { register, control, handleSubmit, formState, watch, getValues } = form;
+  const { register, control, handleSubmit, formState, watch, getValues , setValue} = form;
   const { errors } = formState;
 
   //useFieldArray this hook take objects name and control keys this keys name from useForm's keys name and control keys useForm's control keys
@@ -80,6 +80,19 @@ export const RHFYouTubeForm = () => {
     console.log("one of form elemt value" ,getValues('username'));
     console.log("List of form elemt value" ,getValues(['username', 'channel']));
   }
+
+  const setValueToFormElement = () => {
+    setValue('social.facebook', '');
+  };
+
+  const setValueToFormElementWithShouldDirtyShouldTouchshouldValidate = () => {
+    // rerender component
+    setValue('social.facebook', '', {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
 
   count++;
   return (
@@ -185,7 +198,7 @@ export const RHFYouTubeForm = () => {
 
         <p className="error">{errors.social?.twitter?.message}</p>
 
-        <label htmlFor="channel">Facebook</label>
+        <label htmlFor="facebook">Facebook</label>
         <input
           type="text"
           id="facebook"
@@ -244,8 +257,12 @@ export const RHFYouTubeForm = () => {
         </div>
 
 
-        <button type="submit">Submit</button>
-        <button type="button" onClick ={getValuesFromForm} > getValues method take all value From Form</button>
+        <button type="submit">Submit</button> <br/>
+        <button type="button" onClick ={getValuesFromForm} > getValues method take all value From Form</button><br/>
+        <button type="button" onClick ={setValueToFormElement} > setValue method</button><br/>
+        <button type="button" onClick={setValueToFormElementWithShouldDirtyShouldTouchshouldValidate}> 
+          setValueToFormElementWithShouldDirtyShouldTouchshouldValidate 
+        </button><br/>
       </form>
 
       <DevTool control={control} />
