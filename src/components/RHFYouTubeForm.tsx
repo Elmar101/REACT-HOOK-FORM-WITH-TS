@@ -49,7 +49,7 @@ export const RHFYouTubeForm = () => {
       phNumbers: [{number: '' }]
     },
   });
-  const { register, control, handleSubmit, formState, watch } = form;
+  const { register, control, handleSubmit, formState, watch, getValues } = form;
   const { errors } = formState;
 
   //useFieldArray this hook take objects name and control keys this keys name from useForm's keys name and control keys useForm's control keys
@@ -65,11 +65,21 @@ export const RHFYouTubeForm = () => {
   };
 
   useEffect(()=>{
+    // does not be rerender componnet
     const subscription = watch((fieldValue)=>{
       console.log({effectFieldValue: fieldValue});
     });
     return ()=> subscription.unsubscribe();
   },[watch]);
+
+ // getValues of params make like watch method of params
+ // getValues() takes all values from form | getValues('special form element name') | getValues(['special form element name1', 'special form element name2'])
+  const getValuesFromForm = () => {
+    // does not be rerender componnet
+    console.log("all form elemt value" ,getValues());
+    console.log("one of form elemt value" ,getValues('username'));
+    console.log("List of form elemt value" ,getValues(['username', 'channel']));
+  }
 
   count++;
   return (
@@ -235,6 +245,7 @@ export const RHFYouTubeForm = () => {
 
 
         <button type="submit">Submit</button>
+        <button type="button" onClick ={getValuesFromForm} > getValues method take all value From Form</button>
       </form>
 
       <DevTool control={control} />
