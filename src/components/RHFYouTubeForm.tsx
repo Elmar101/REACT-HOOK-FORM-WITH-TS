@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import axios from "axios";
@@ -55,7 +56,7 @@ export const RHFYouTubeForm = () => {
   const { fields, append, remove } = useFieldArray({name: 'phNumbers', control});
 
   //watch -> watch() listens all form elements | watch('special form element of name') | watch(['name 1 of form elemnt','name 2 of form elemnt'']);
-  const watchAllFormElements = watch();
+  // const watchAllFormElements = watch();
   const watchUserName = watch('username');
   const watchChanelAndAge = watch(['channel', 'age']);
   
@@ -63,11 +64,18 @@ export const RHFYouTubeForm = () => {
     console.log("Form submitted", data);
   };
 
+  useEffect(()=>{
+    const subscription = watch((fieldValue)=>{
+      console.log({effectFieldValue: fieldValue});
+    });
+    return ()=> subscription.unsubscribe();
+  },[watch]);
+
   count++;
   return (
     <div>
       <h1>YouTube Form ({count})</h1>
-      <h2>watchAllFormElements: {JSON.stringify(watchAllFormElements)}</h2>
+      {/* <h2>watchAllFormElements: {JSON.stringify(watchAllFormElements)}</h2> */}
       <h2>watchUserName: {watchUserName}</h2>
       <h2>watchChanelAndAge: {watchChanelAndAge.toString()}</h2>
 
